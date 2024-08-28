@@ -13,10 +13,16 @@ module DataverseService
       @server = ENV['DATAVERSE_SERVER'] || server
     end
 
-    ## TODO: these are the primary methods we'll need,
-    # def get_dataset; end
-    # def add_file; end
-    # def add_files; end
+    def find_dataset(id, with_doi: true)
+      request(http_method: :get, endpoint: build_request_uri('api/datasets', id, with_doi:))
+    end
+
+    def find_dataset_by_doi(doi)
+      ## TODO: these are the primary methods we'll need,
+      # def get_dataset; end
+      # def add_file; end
+      # def add_files; end
+    end
 
     private
 
@@ -35,6 +41,20 @@ module DataverseService
     def request(http_method:, endpoint:, body: {})
       response = client.public_send(http_method, endpoint, body)
       { status: response.status, body: response.body }
+    end
+
+    def build_request_uri(resource, id, submethod: nil, with_doi: true)
+      did = dataset_id_or_doi(id, with_doi:)
+      path = "#{resource}/#{did[:id_path]}"
+      path += "/#{submethod}" unless submethod.nil?
+      path += "?#{did[:query]}" unless did[:query].nil?
+      path
+    end
+
+    def dataset_id_or_doi(id, with_doi: true)
+      return { id_path: ':persistentId', query: "persistentId=#{id}" } if with_doi
+
+      { id_path: id, query: nil }
     end
   end
 end
