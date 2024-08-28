@@ -31,3 +31,8 @@ services:
     volumes:
       - ./:/build:rw
 
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    restart: always

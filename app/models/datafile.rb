@@ -1,13 +1,7 @@
 class Datafile < ApplicationRecord
-  validates :origFilename,
-        :filename,
-        :realpath,
-        :directoryLabel,
-        :storageIdentifier,
-        :md5Hash,
-        :dataverseId,
-        :description,
-        presence: true
+  belongs_to :dataload
 
-  enum status: { created: 0, in_progress: 1, completed: 2, failed: 3, archived: 4 }
+  validates :origFilename, presence: true
+
+  enum :status, [:created, :in_progress, :completed, :failed, :archived], default: :created
 end
