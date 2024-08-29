@@ -9,7 +9,3 @@ AllCops:
   Exclude:
     - 'bin/*'
     - 'db/**/*'
-
-# Putting '# frozen_string_literal: true' everywhere does not make the world a better place
-Style/FrozenStringLiteralComment:
-  Enabled: false

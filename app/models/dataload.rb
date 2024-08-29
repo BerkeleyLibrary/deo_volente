@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Dataload object represents a data load request from a user.
 class Dataload < ApplicationRecord
   has_many :datafiles, dependent: :destroy

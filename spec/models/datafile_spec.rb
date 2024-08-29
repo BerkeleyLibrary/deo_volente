@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe Datafile, type: :model do
+RSpec.describe Datafile do
   pending "add some examples to (or delete) #{__FILE__}"
 end
