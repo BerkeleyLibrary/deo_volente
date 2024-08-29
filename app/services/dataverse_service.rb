@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'faraday'
+require 'faraday/multipart'
 
 # module to contain application services for Dataverse API calls
 module DataverseService
@@ -17,23 +18,34 @@ module DataverseService
       request(http_method: :get, endpoint: build_request_uri('api/datasets', id, with_doi:))
     end
 
-    def find_dataset_by_doi(doi)
-      ## TODO: these are the primary methods we'll need,
-      # def get_dataset; end
-      # def add_file; end
-      # def add_files; end
+    # adds a file to an existing Dataverse dataset. implementation
+    # assumes that this is an out of band upload.
+    #
+    # @todo catch errors so we can provide a more useful one in logs
+    #
+    # @see https://guides.dataverse.org/en/latest/developers/s3-direct-upload-api.html#adding-the-uploaded-file-to-the-dataset
+    def add_file(id, metadata: nil)
+      method = metadata.is_a?(Array) ? 'addFiles' : 'add'
+      request(http_method: :post,
+              endpoint: build_request_uri('api/datasets',
+                                          id,
+                                          submethod: method),
+              body: "jsonData=#{JSON.dump(metadata)}")
     end
+
+    alias add_files add_file
 
     private
 
     def client
       @client ||= begin
-        options = { headers: { 'X-Dataverse-API-key': @api_key } }
+        options = { headers: { 'X-Dataverse-key': @api_key } }
         Faraday.new(url: @server, **options) do |config|
-          config.request :json
+          config.request :multipart
+          # config.request :json
           config.response :json, parser_options: { symbolize_names: true }
           config.response :raise_error
-          config.response :logger, Rails.logger, headers: false, bodies: true, log_level: :debug
+          config.response :logger, Rails.logger, headers: true, bodies: true, log_level: :debug
         end
       end
     end

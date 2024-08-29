@@ -15,6 +15,7 @@ gem 'turbo-rails'
 gem 'tzinfo-data', platforms: %i[windows jruby]
 
 gem 'faraday'
+gem 'faraday-multipart'
 gem 'good_job'
 gem 'omniauth'
 gem 'omniauth-cas'
