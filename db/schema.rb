@@ -10,10 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_27_205727) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_28_230239) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "datafiles", force: :cascade do |t|
+    t.string "origFilename"
+    t.string "filename"
+    t.string "realpath"
+    t.string "directoryLabel"
+    t.string "storageIdentifier"
+    t.string "md5Hash"
+    t.string "dataverseId"
+    t.string "description"
+    t.integer "uploadStatus", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "dataload_id", null: false
+    t.string "mimeType"
+    t.index ["dataload_id"], name: "index_datafiles_on_dataload_id"
+  end
+
+  create_table "dataloads", force: :cascade do |t|
+    t.string "doi", null: false
+    t.string "mountPoint", null: false
+    t.string "directory", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "user_name", null: false
+    t.string "user_email", null: false
+  end
 
   create_table "good_job_batches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -103,4 +131,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_27_205727) do
     t.index ["scheduled_at"], name: "index_good_jobs_on_scheduled_at", where: "(finished_at IS NULL)"
   end
 
+  add_foreign_key "datafiles", "dataloads"
 end
