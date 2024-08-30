@@ -9,11 +9,19 @@ module DataverseService
   class APIClient
     attr_accessor :server, :api_key
 
+    # constructor for DataverseService::APIClient
+    #
+    # @param [String] server the base url to the Dataverse server
+    # @param [String] api_key the dataverse API key
     def initialize(server: nil, api_key: nil)
       @api_key = ENV['DATAVERSE_API_KEY'] || api_key
       @server = ENV['DATAVERSE_SERVER'] || server
     end
 
+    # retrieves metadata for a given dataset
+    #
+    # @params [String] id id the ID for the resource in question, either a database ID or a DOI
+    # @params [Boolean] with_doi specifies whether `id` is a DOI or not
     def find_dataset(id, with_doi: true)
       request(http_method: :get, endpoint: build_request_uri('api/datasets', id, with_doi:))
     end
@@ -26,23 +34,25 @@ module DataverseService
     # @see https://guides.dataverse.org/en/latest/developers/s3-direct-upload-api.html#adding-the-uploaded-file-to-the-dataset
     def add_file(id, metadata: nil)
       method = metadata.is_a?(Array) ? 'addFiles' : 'add'
+      payload = { jsonData: Faraday::Multipart::ParamPart.new(metadata.to_json, 'application/json') }
       request(http_method: :post,
               endpoint: build_request_uri('api/datasets',
                                           id,
                                           submethod: method),
-              body: "jsonData=#{JSON.dump(metadata)}")
+              body: payload)
     end
 
     alias add_files add_file
 
     private
 
+    # private method to wrap the Dataverse API
     def client
       @client ||= begin
         options = { headers: { 'X-Dataverse-key': @api_key } }
         Faraday.new(url: @server, **options) do |config|
-          config.request :multipart
-          # config.request :json
+          config.request :multipart, **options
+          config.request :json
           config.response :json, parser_options: { symbolize_names: true }
           config.response :raise_error
           config.response :logger, Rails.logger, headers: true, bodies: true, log_level: :debug
@@ -50,11 +60,23 @@ module DataverseService
       end
     end
 
+    # private method to send requests to Faraday
+    #
+    # @param [Symbol] http_method the HTTP method of the request
+    # @param [String] endpoint the API endpoint the request will be sent to
+    # @param [Hash,Array,String] the body of the request to send
     def request(http_method:, endpoint:, body: {})
       response = client.public_send(http_method, endpoint, body)
       { status: response.status, body: response.body }
     end
 
+    # private method to build a Dataverse API call, depending on
+    # how a Dataset ID is passed (DOI or dataset ID)
+    #
+    # @params [String] resource the Dataverse resource type
+    # @params [String] id the ID for the resource in question
+    # @params [String, NilClass] submethod the submethod for the resource
+    # @params [Boolean] with_doi pecifies whether `id` is a DOI or not
     def build_request_uri(resource, id, submethod: nil, with_doi: true)
       did = dataset_id_or_doi(id, with_doi:)
       path = "#{resource}/#{did[:id_path]}"
@@ -63,6 +85,11 @@ module DataverseService
       path
     end
 
+    # private method to construct a URI part and query string depending
+    # on whether the Dataset ID is a database ID or DOI
+    #
+    # @params [String] id id the ID for the resource in question, either a database ID or a DOI
+    # @params [Boolean] with_doi specifies whether `id` is a DOI or not
     def dataset_id_or_doi(id, with_doi: true)
       return { id_path: ':persistentId', query: "persistentId=#{id}" } if with_doi
 
