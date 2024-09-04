@@ -7,15 +7,17 @@ require 'faraday/multipart'
 module DataverseService
   # API client to interact with Dataverse for out of band uploads
   class APIClient
-    attr_accessor :server, :api_key
+    attr_accessor :base_uri, :api_key
 
     # constructor for DataverseService::APIClient
     #
-    # @param [String] server the base url to the Dataverse server
+    # @param [String] base_uri the base uri to the Dataverse server
     # @param [String] api_key the dataverse API key
-    def initialize(server: nil, api_key: nil)
+    #
+    # @todo Raise an exception if args are not includedd
+    def initialize(base_uri: nil, api_key: nil)
       @api_key = ENV['DATAVERSE_API_KEY'] || api_key
-      @server = ENV['DATAVERSE_SERVER'] || server
+      @base_uri = ENV['DATAVERSE_BASE_URI'] || base_uri
     end
 
     # retrieves metadata for a given dataset
@@ -50,7 +52,7 @@ module DataverseService
     def client
       @client ||= begin
         options = { headers: { 'X-Dataverse-key': @api_key } }
-        Faraday.new(url: @server, **options) do |config|
+        Faraday.new(url: @base_uri, **options) do |config|
           config.request :multipart, **options
           config.request :json
           config.response :json, parser_options: { symbolize_names: true }
