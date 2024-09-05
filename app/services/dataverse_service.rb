@@ -57,7 +57,11 @@ module DataverseService
           config.request :json
           config.response :json, parser_options: { symbolize_names: true }
           config.response :raise_error
-          config.response :logger, Rails.logger, headers: true, bodies: true, log_level: :debug
+          config.response :logger,
+                          Rails.logger,
+                          headers: !Rails.env.production?,
+                          bodies: !Rails.env.production?,
+                          log_level: Rails.application.config.log_level
         end
       end
     end

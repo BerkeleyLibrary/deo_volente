@@ -104,11 +104,10 @@ module DataverseService
                       headers: { 'Content-type': 'application/json' },
                       body: File.read('spec/data/single_file_error.json')).and_raise(Faraday::BadRequestError)
           expect { client.add_file(doi, metadata:) }.to raise_error(Faraday::BadRequestError)
-          # .and match(a_hash_including(status: 400, body: a_hash_including(message: /Failed to add file to dataset.$/)))
-        end
+          # @todo add something like .and match(a_hash_including(status: 400, body: a_hash_including(message: /Failed to add file to dataset.$/)))
         end
 
-        it 'sends metadata for a batch of files'
+        # @todo add a spec to test if adding batches of files works
       end
     end
   end
