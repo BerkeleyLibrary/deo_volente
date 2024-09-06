@@ -10,3 +10,6 @@ AllCops:
     - 'bin/*'
     - 'db/**/*'
     - 'config/**/*'
+
+Style/NumericLiterals:
+  Enabled: false

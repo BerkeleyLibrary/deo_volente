@@ -39,3 +39,4 @@
 
 # Rubocop Cache!
 .cache
+.irb_history

@@ -15,6 +15,7 @@ gem 'turbo-rails'
 gem 'tzinfo-data', platforms: %i[windows jruby]
 
 gem 'faraday'
+gem 'faraday-multipart'
 gem 'good_job'
 gem 'omniauth'
 gem 'omniauth-cas'
@@ -28,6 +29,7 @@ group :development, :test do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'rubocop-rspec_rails', require: false
+  gem 'webmock'
 end
 
 group :development do
