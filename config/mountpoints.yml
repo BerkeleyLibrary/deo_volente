@@ -1,0 +1,9 @@
+shared:
+  source:
+    digital_assets:
+      path: /srv/da
+      label: Digital Assets
+    dataverse_etl:
+      path: /srv/etl
+      label: Dataverse ETL
+  destination: /usr/local/payara6/glassfish/domains/domain1/files
