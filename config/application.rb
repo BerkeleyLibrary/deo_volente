@@ -28,5 +28,6 @@ module DeoVolente
     # config.eager_load_paths << Rails.root.join("extras")
     
     config.active_job.queue_adapter = :good_job
+    config.x.mountpoints = config_for(:mountpoints)
   end
 end
