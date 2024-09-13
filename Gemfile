@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '3.3.4'
+ruby '3.3.5'
 
 gem 'bootsnap', require: false
 gem 'importmap-rails'
@@ -41,6 +41,8 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+
+  gem 'ruby-lsp'
 end
 
 group :test do
