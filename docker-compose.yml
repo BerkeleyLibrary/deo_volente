@@ -12,6 +12,10 @@ services:
           - app.test
     volumes:
       - ./:/opt/app
+      - ./tmp/devmounts/da:/srv/da
+      - ./tmp/devmounts/etl:/srv/etl
+      - ./tmp/devmounts/dvfiles:/srv/dvfiles
+
     ports:
       - 3000:3000
     restart: always
