@@ -5,7 +5,23 @@ class EnumerateFilesJob < ApplicationJob
   include GoodJob::ActiveJobExtensions::Batches
   queue_as :default
 
-  def perform(*args)
+  def perform(batch, context)
+    if batch.properties[:stage].nil?
+      batch.enqueue(stage: 1) do
+        enumerate_files(mountpoint:, path:) do |f|
+          ProcessFileJob.perform_later(step: :a, file: f)
+        end
+      elsif batch.properties[:stage] == 1
+        
+        GoodJob::Batch.enqueue(dataload:) do
+          Pathname.glob("#{source.fetch(:path)}/**/*") do |p|
+            ProcessFileJob.perform_later
+          end
+        end
+      end
+    else
+      blah
+    end
     # 1. get the Dataload object
     # 2. get the real path:
     #   * get the :source key, and look up its :path attribute
@@ -17,5 +33,11 @@ class EnumerateFilesJob < ApplicationJob
     # Pathname.glob(realpath + '**/*') do |p|
     #   Datafile.new(whatever)
     # end
+  end
+
+  def enumerate_files(mountpoint:, path:)
+    # source_id = dataload.mountpoint.to_sym
+    source = Rails.configuration.x.mountpoints.source.fetch(mountpoint)
+    Pathname.glob("#{source.fetch(:path)}/#{path}/**/*")
   end
 end
