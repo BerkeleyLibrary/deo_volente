@@ -19,6 +19,7 @@ gem 'faraday-multipart'
 gem 'good_job'
 gem 'omniauth'
 gem 'omniauth-cas'
+gem "omniauth-rails_csrf_protection"
 gem 'pg'
 
 group :development, :test do
