@@ -3,7 +3,7 @@ FROM ruby:3.3-slim AS base
 EXPOSE 3000
 
 ENV APP_USER=dvtools
-ENV APP_UID=49001
+ENV APP_UID=40088
 
 # ------------------------------------------------------------
 # Create the application user/group and installation directory
