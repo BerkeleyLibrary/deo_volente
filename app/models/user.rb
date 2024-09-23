@@ -7,7 +7,6 @@ class User
 
   class << self
     def from_omniauth(auth)
-      # TODO: Add error handling
       new(**auth_params_from(auth))
     end
 
