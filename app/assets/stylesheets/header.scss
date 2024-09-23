@@ -1,0 +1,46 @@
+/* Navbar styles */
+.navbar {
+  background-color: #f8f9fa; /* Light gray background */
+  /*padding: 10px 20px;*/
+  border-bottom: 1px solid #ddd;
+}
+
+/* Container to align items */
+.container {
+  display: flex;
+  justify-content: space-between; /* Positions logo on the left and login on the right */
+  align-items: center; /* Vertically aligns the logo and login link */
+}
+
+/* Logo styles */
+.logo img {
+  height: 5em;  
+}
+
+/* Login link styles */
+.login-link a {
+  color: blue;
+  text-decoration: none;
+  font-size: inherit;
+  font-weight: bold;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+  color: darkblue;
+}
+
+.button-as-link {
+  background: none;        /* Remove button background */
+  border: none;            /* Remove button border */
+  color: blue;             /* Set link color */
+  text-decoration: none;  /* Underline text to resemble a link */
+  cursor: pointer;         /* Change the cursor to pointer (like a link) */
+  font-size: inherit;      /* Inherit the font size to match surrounding text */
+  padding: 0;              /* Remove padding to make it flat */
+}
+
+.button-as-link:hover {
+  color: darkblue;         /* Change color on hover */
+  text-decoration: underline;   /* Remove underline on hover */
+}
