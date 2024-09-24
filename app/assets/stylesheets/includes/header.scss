@@ -1,8 +1,9 @@
+@import 'globals';
+
 /* Navbar styles */
 .navbar {
-  background-color: #f8f9fa; /* Light gray background */
-  /*padding: 10px 20px;*/
-  border-bottom: 1px solid #ddd;
+  padding: 10px 5px;
+  border-bottom: 1px solid $color-header-divider;
 }
 
 /* Container to align items */
@@ -19,7 +20,7 @@
 
 /* Login link styles */
 .login-link a {
-  color: blue;
+  color: $color-berkeley-blue;
   text-decoration: none;
   font-size: inherit;
   font-weight: bold;
@@ -27,20 +28,20 @@
 
 .login-link a:hover {
   text-decoration: underline;
-  color: darkblue;
+  color: $color-anchor-highlight;
 }
 
 .button-as-link {
   background: none;        /* Remove button background */
   border: none;            /* Remove button border */
-  color: blue;             /* Set link color */
-  text-decoration: none;  /* Underline text to resemble a link */
+  color: $color-berkeley-blue;           /* Set link color */
+  text-decoration: none;   /* Underline text to resemble a link */
   cursor: pointer;         /* Change the cursor to pointer (like a link) */
   font-size: inherit;      /* Inherit the font size to match surrounding text */
   padding: 0;              /* Remove padding to make it flat */
 }
 
 .button-as-link:hover {
-  color: darkblue;         /* Change color on hover */
+  color: $color-anchor-highlight;            /* Change color on hover */
   text-decoration: underline;   /* Remove underline on hover */
 }

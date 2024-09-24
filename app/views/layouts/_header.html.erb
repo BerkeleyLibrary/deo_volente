@@ -1,0 +1,19 @@
+<nav class="navbar">
+  <div class="container">
+    <!-- Logo on the left -->
+    <div class="logo">
+      <%= link_to (image_tag 'deo_volente_v1.png', { :alt => 'DeoVolente @ UC Berkeley' }), root_path %>
+    </div>
+
+    <div class="login-link">
+      <% if signed_in? %>
+        <%= link_to t('Logout'), logout_path %>
+      <% else %>
+        <%# Note - it's not enough to be "signed in", you need to be "authenticated" as a Dataverse user %>
+        <%= form_tag('/auth/cas', method: 'post', data: {turbo: false}) do %>
+          <button class='button-as-link' type='submit'>Login</button>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</nav>
