@@ -9,18 +9,13 @@ class EnumerateFilesJob < ApplicationJob
     if batch.properties[:stage].nil?
       batch.enqueue(stage: 1) do
         enumerate_files(mountpoint:, path:) do |f|
-          ProcessFileJob.perform_later(step: :a, file: f)
-        end
-      elsif batch.properties[:stage] == 1
-        
-        GoodJob::Batch.enqueue(dataload:) do
-          Pathname.glob("#{source.fetch(:path)}/**/*") do |p|
-            ProcessFileJob.perform_later
-          end
+          ProcessFileJob.perform_later(step: :a, datafile: f)
         end
       end
-    else
-      blah
+    elsif batch.properties[:stage] == 1
+      batch.enqueue(stage: 2) do
+        f
+      end
     end
     # 1. get the Dataload object
     # 2. get the real path:
