@@ -1,0 +1,10 @@
+<h1>Upload Data</h1>
+
+<%= form_with(url: data_uploads_path, local: true, multipart: true) do |form| %>
+  <div class="form-group">
+    <%= form.label :file, "Choose a file to upload" %>
+    <%= form.file_field :file %>
+  </div>
+
+  <%= form.submit "Upload", class: "btn btn-primary" %>
+<% end %>
