@@ -36,6 +36,7 @@ footer {
     &#footer-links {
       text-transform: uppercase;
       font-weight: $font-weight-bold;
+      // text-decoration: none;
     }
 
     &#social-media {
@@ -99,6 +100,7 @@ footer {
           display: flex;
           justify-content: flex-start;
           margin-left: 1em;
+          list-style-type: none;
 
           li {
             margin-right: 1em;
