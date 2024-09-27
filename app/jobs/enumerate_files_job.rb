@@ -6,15 +6,9 @@ class EnumerateFilesJob < ApplicationJob
   queue_as :default
 
   def perform(batch, context)
-    if batch.properties[:stage].nil?
-      batch.enqueue(stage: 1) do
-        enumerate_files(mountpoint:, path:) do |f|
-          ProcessFileJob.perform_later(step: :a, datafile: f)
-        end
-      end
-    elsif batch.properties[:stage] == 1
-      batch.enqueue(stage: 2) do
-        f
+    batch.enqueue(stage: 1) do
+      enumerate_files(mountpoint:, path:) do |f|
+        PrepareDatafileObjectJob.perform_later(orig_filename: f.to_s)
       end
     end
     # 1. get the Dataload object
@@ -31,8 +25,7 @@ class EnumerateFilesJob < ApplicationJob
   end
 
   def enumerate_files(mountpoint:, path:)
-    # source_id = dataload.mountpoint.to_sym
-    source = Rails.configuration.x.mountpoints.source.fetch(mountpoint)
-    Pathname.glob("#{source.fetch(:path)}/#{path}/**/*")
+    source_path = DataverseService::Mountpoints.new.public_send("#{mountpoint}_path")
+    Pathname.glob("#{source_path}/#{path}/**/*")
   end
 end
