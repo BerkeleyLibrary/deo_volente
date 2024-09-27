@@ -28,5 +28,9 @@ class Dataload < ApplicationRecord
 
   def archived?
     archived ? 'Yes' : 'No'
+  # @todo should this be obfuscated somehow?
+  def realpath
+    path = DataverseService::Mountpoints.new.public_send("#{mountPoint}_path")
+    Pathname.new(path).join(directory)
   end
 end
