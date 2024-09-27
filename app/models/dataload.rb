@@ -14,4 +14,10 @@ class Dataload < ApplicationRecord
 
   # TODO: initiate the "Dataload" job
   def submit; end
+
+  # @todo should this be obfuscated somehow?
+  def realpath
+    path = DataverseService::Mountpoints.new.public_send("#{mountPoint}_path")
+    Pathname.new(path).join(directory)
+  end
 end
