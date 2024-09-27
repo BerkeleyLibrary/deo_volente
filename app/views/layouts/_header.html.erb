@@ -1,19 +1,24 @@
-<nav class="navbar">
+<header>
   <div class="container">
     <!-- Logo on the left -->
     <div class="logo">
       <%= link_to (image_tag 'logo.png', { :alt => 'DeoVolente @ UC Berkeley' }), root_path %>
     </div>
 
-    <div class="login-link">
-      <% if signed_in? %>
-        <%= link_to t('Logout'), logout_path %>
-      <% else %>
-        <%# Note - it's not enough to be "signed in", you need to be "authenticated" as a Dataverse user %>
-        <%= form_tag('/auth/cas', method: 'post', data: {turbo: false}) do %>
-          <button class='button-as-link' type='submit'>Login</button>
-        <% end %>
-      <% end %>
-    </div>
+    <!-- Navigation links on the right -->
+    <div class="nav-links">
+      <ul>
+        <li><%= link_to t('Great Stuff'), root_path %></li>
+        <li><%= link_to t('Cool Feature'), root_path %></li>
+        <li>
+          <% if signed_in? %>
+            <%= link_to 'CalNet Logout', logout_path, data: { turbo: false } %>
+          <% else %>
+            <%= form_tag('/auth/cas', method: 'post', data: {turbo: true}) do %>
+              <button class='button-as-link' type='submit'>CalNet Login</button>
+            <% end %>
+          <% end %>
+        </li>
+      </ul>
   </div>
-</nav>
+</header>

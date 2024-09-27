@@ -1,9 +1,12 @@
 @import 'globals';
 
 /* Navbar styles */
-.navbar {
+body > header {
   padding: 10px 5px;
+  background: $color-background;
   border-bottom: 1px solid $color-header-divider;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Container to align items */
@@ -32,16 +35,39 @@
 }
 
 .button-as-link {
-  background: none;        /* Remove button background */
-  border: none;            /* Remove button border */
-  color: $color-berkeley-blue;           /* Set link color */
-  text-decoration: none;   /* Underline text to resemble a link */
-  cursor: pointer;         /* Change the cursor to pointer (like a link) */
-  font-size: inherit;      /* Inherit the font size to match surrounding text */
-  padding: 0;              /* Remove padding to make it flat */
+  background: none;
+  border: none;
+  color: inherit;
+  text-decoration: none;
+  font-size: inherit;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  font-weight: bold;
 }
 
 .button-as-link:hover {
-  color: $color-anchor-highlight;            /* Change color on hover */
-  text-decoration: underline;   /* Remove underline on hover */
+  color: $color-anchor-highlight;
+  text-decoration: underline;
+}
+
+.nav-links ul {
+  list-style-type: none;
+}
+
+.nav-links li {
+  display: inline-block; /* Displays the list items horizontally */
+  margin-right: 15px; /* Adds some space between the links */
+}
+
+
+.nav-links a {
+  text-decoration: none; /* Removes underlines */
+  color: inherit; /* Inherit color from the parent (optional, set your desired color) */
+  font-weight: bold; /* Optional: add bold for better visibility */
+}
+
+.button-as-link:hover, .nav-links a:hover {
+  text-decoration: underline; /* Optional: adds an underline on hover for emphasis */
+  color: $color-anchor-highlight;
 }
