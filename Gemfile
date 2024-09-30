@@ -5,12 +5,12 @@ source 'https://rubygems.org'
 ruby '3.3.5'
 
 gem 'bootsnap', require: false
+gem 'dartsass-sprockets', '~> 3.0'
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'puma', '>= 5.0'
 gem 'rails', '~> 7.1.3', '>= 7.1.3.4'
 gem 'sprockets-rails'
-gem 'dartsass-sprockets', '~> 3.0'
 gem 'stimulus-rails'
 gem 'turbo-rails'
 gem 'tzinfo-data', platforms: %i[windows jruby]
@@ -20,7 +20,7 @@ gem 'faraday-multipart'
 gem 'good_job'
 gem 'omniauth'
 gem 'omniauth-cas'
-gem "omniauth-rails_csrf_protection"
+gem 'omniauth-rails_csrf_protection'
 gem 'pg'
 
 group :development, :test do

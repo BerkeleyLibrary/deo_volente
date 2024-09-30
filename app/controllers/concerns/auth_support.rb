@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# AuthSupport is a concern that provides methods for authenticating users.
 module AuthSupport
   extend ActiveSupport::Concern
 
@@ -11,14 +12,6 @@ module AuthSupport
   # @raise [Error::UnauthorizedError] If the user is not
   #   authenticated
   def authenticate!
-    puts "------------------------------------------"
-    puts "------------------------------------------"
-    puts "------------------------------------------"
-    puts "             authenticate!"
-    puts "------------------------------------------"
-    puts "------------------------------------------"
-    puts "------------------------------------------"
-    # raise Error::UnauthorizedError, "Endpoint #{controller_name}/#{action_name} requires authentication" unless authenticated?
     redirect_to main_app.login_path(url: request.fullpath) unless authenticated?
   end
 
@@ -26,14 +19,6 @@ module AuthSupport
   #
   # @return [Boolean]
   def authenticated?
-    puts "------------------------------------------"
-    puts "-------auth_support.authenticated?--------"
-    puts "------------------------------------------"
-    puts "current_user.inspect:"
-    puts "#{current_user.inspect}"
-    puts "------------------------------------------"
-    puts "------------------------------------------"
-    puts "------------------------------------------"
     signed_in?
   end
 
@@ -70,5 +55,4 @@ module AuthSupport
   def signed_in?
     current_user.authenticated?
   end
-
 end
