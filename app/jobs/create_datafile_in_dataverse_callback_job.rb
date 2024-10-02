@@ -1,15 +1,13 @@
+# frozen_string_literal: true
+
+# callback job to create datafiles in dataverse
 class CreateDatafileInDataverseCallbackJob < ApplicationJob
   queue_as :default
 
-  def perform(batch, context)
-    client = DataverseService::APIClient.new
-    batch.properties[:dataload].datafiles.find_in_batches(batch_size: 100) do |group|
-      # create a new job with a list of ids for serialization
-      # within the new job:
-      #   serialize
-      #   create the files in dataverse
-      #   update the datafile objects in deo_volente
-      # callback to handle after all batches?
+  def perform(batch, _context)
+    batch.properties[:dataload].datafiles.find_all do |datafile|
+      batch.add { UpdateDataverseWithMetadataJob.perform_later(datafile:) }
     end
+    batch.enqueue(on_success: 'CleanupCallbackJob', on_finish: 'CleanupCallbackJob')
   end
 end
