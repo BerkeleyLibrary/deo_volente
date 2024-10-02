@@ -7,8 +7,8 @@ class CopyDatafileToDataverseMountJob < ApplicationJob
   queue_as :default
 
   def perform(datafile:)
-    dest_fn = "#{dest_path}/#{datafile.filename}"
-    FileUtils.mkdir_p(dest_path)
+    dest_fn = dest_path(datafile:).join(datafile.filename)
+    FileUtils.mkdir_p(dest_path(datafile:))
     FileUtils.cp(datafile.origFilename, dest_fn)
     dest_md5 = Digest::MD5.file(dest_fn).hexdigest
     return unless datafile.md5Hash != dest_md5
@@ -19,7 +19,8 @@ class CopyDatafileToDataverseMountJob < ApplicationJob
   end
 
   def dest_path(datafile:)
-    bare_doi = batch.properties[:dataload].doi.sub(/^doi:/, '')
-    "#{DataverseService::Mountpoints.new.destination}/#{bare_doi}/#{datafile.directoryLabel}"
+    dest = DataverseService::Mountpoints.new.destination
+    Pathname(dest).join(*batch.dataload.path_doi,
+                        datafile.directoryLabel)
   end
 end
