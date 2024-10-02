@@ -8,7 +8,7 @@ class DatafileBuilder
     pathname = Pathname.new(@origFilename)
     @filename = pathname.basename.to_s
     @realpath = pathname.realpath
-    dir_label = pathname.relative_path_from(dataload.basedir)[0]
+    dir_label = pathname.relative_path_from(dataload.realpath)[0]
     @directoryLabel = dir_label == '.' ? '' : dir_label
     @storageIdentifier = DataverseService::StorageIdentifier.new
     @md5Hash = Digest::MD5.file(@realpath).hexdigest
@@ -27,6 +27,6 @@ class DatafileBuilder
                                directoryLabel: @directoryLabel,
                                storageIdentifier: @storageIdentifier.to_s,
                                md5Hash: @md5Hash, mimeType: @mimeType,
-                               description: '')
+                               description: '', status: :in_progress)
   end
 end

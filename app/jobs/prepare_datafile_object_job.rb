@@ -4,8 +4,8 @@ class PrepareDatafileObjectJob < ApplicationJob
 
   queue_as :default
   # @todo make sure you understand globalid
-  def perform(orig_filename:, dataload:)
-    datafile = DatafileBuilder.call(orig_filename:, dataload:)
+  def perform(orig_filename:)
+    datafile = DatafileBuilder.call(orig_filename:)
     # @todo is this the right #perform variant?
     batch.add { CopyFileToDataverseMountJob.perform_later(datafile:) }
   end
