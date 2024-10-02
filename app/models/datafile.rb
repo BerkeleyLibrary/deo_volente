@@ -2,6 +2,8 @@
 
 # Datafile object
 class Datafile < ApplicationRecord
+  include ActiveModel::Serialization
+
   belongs_to :dataload
 
   validates :origFilename, presence: true
@@ -10,5 +12,12 @@ class Datafile < ApplicationRecord
 
   def pathname
     @pathname ||= Pathname.new(origFilename)
+  end
+
+  def as_dataverse_json(options = { except: %i[status created_at updated_at dataload_id] })
+    json = as_json(options)
+    json[:fileName] = json[:filename]
+    json.delete(:filename)
+    json
   end
 end
