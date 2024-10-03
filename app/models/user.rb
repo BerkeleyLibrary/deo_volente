@@ -5,7 +5,7 @@
 class User
   include ActiveModel::Model
 
-  DEOVOLENTE_USER_GROUP = 'cn=edu:berkeley:app:calnet-spa:group-spa-ucblibdataverse,ou=campus groups,dc=berkeley,dc=edu'
+  DEOVOLENTE_GROUP = 'cn=edu:berkeley:org:libr:dataverse:deovolente,ou=campus groups,dc=berkeley,dc=edu'
 
   class << self
     def from_omniauth(auth)
@@ -23,7 +23,7 @@ class User
         display_name: auth_extra['displayName'],
         email: auth_extra['berkeleyEduAlternateID'],
         uid: auth_extra['uid'] || auth['uid'],
-        dataverse_user: cal_groups.include?(DEOVOLENTE_USER_GROUP)
+        dataverse_user: cal_groups.include?(DEOVOLENTE_GROUP)
       }
     end
   end

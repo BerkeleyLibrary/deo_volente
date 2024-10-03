@@ -2,14 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe User do
-  # rubocop:disable RSpec/ExampleLength
-  it 'populates a User object' do
-    # rubocop:disable Layout/LineLength
-    dataverse_user_group = 'cn=edu:berkeley:app:calnet-spa:group-spa-ucblibdataverse,ou=campus groups,dc=berkeley,dc=edu'
-    # rubocop:enable Layout/LineLength
+DVG = 'cn=edu:berkeley:org:libr:dataverse:deovolente,ou=campus groups,dc=berkeley,dc=edu'
 
-    auth = {
+RSpec.describe User do
+  let(:auth) do
+    {
       'provider' => 'calnet',
       'extra' => {
         'berkeleyEduAffiliations' => 'expected affiliation',
@@ -18,27 +15,49 @@ RSpec.describe User do
         'uid' => 'expected UID'
       }
     }
+  end
 
-    [true, false].each do |dataverse_user|
-      auth['extra']['berkeleyEduIsMemberOf'] = dataverse_user ? dataverse_user_group : ''
-      user = described_class.from_omniauth(auth)
-      expect(user).to have_attributes(
-        affiliations: 'expected affiliation',
-        display_name: 'expected display name',
-        email: 'expected email',
-        uid: 'expected UID'
-      )
+  it 'populates the users affiliations' do
+    user = described_class.from_omniauth(auth)
+    expect(user.affiliations).to eq('expected affiliation')
+  end
+
+  it 'populates the users display name' do
+    user = described_class.from_omniauth(auth)
+    expect(user.display_name).to eq('expected display name')
+  end
+
+  it 'populates the users email' do
+    user = described_class.from_omniauth(auth)
+    expect(user.email).to eq('expected email')
+  end
+
+  it 'populates the users UID' do
+    user = described_class.from_omniauth(auth)
+    expect(user.uid).to eq('expected UID')
+  end
+
+  it 'sets dataverse_user to true if user is a member of deo volente' do
+    auth['extra']['berkeleyEduIsMemberOf'] = DVG
+    user = described_class.from_omniauth(auth)
+    expect(user.dataverse_user).to be(true)
+  end
+
+  it 'sets dataverse_user to false if user is not a member of deo volente' do
+    auth['extra']['berkeleyEduIsMemberOf'] = ''
+    user = described_class.from_omniauth(auth)
+    expect(user.dataverse_user).to be(false)
+  end
+
+  describe '#authenticated?' do
+    it 'returns true if user has an ID' do
+      user = described_class.new(uid: '12345')
+      expect(user.authenticated?).to be(true)
     end
-  end
-  # rubocop:enable RSpec/ExampleLength
 
-  it 'returns true if user has an ID' do
-    user = described_class.new(uid: '12345')
-    expect(user.authenticated?).to be(true)
-  end
-
-  it 'returns false if user ID is nil' do
-    user = described_class.new(uid: nil)
-    expect(user.authenticated?).to be(false)
+    it 'returns false if user ID is nil' do
+      user = described_class.new(uid: nil)
+      expect(user.authenticated?).to be(false)
+    end
   end
 end
