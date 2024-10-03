@@ -14,10 +14,13 @@ class Datafile < ApplicationRecord
     @pathname ||= Pathname.new(origFilename)
   end
 
-  def as_dataverse_json(options = { except: %i[status created_at updated_at dataload_id] })
+  def as_dataverse_json(options = {
+    except: %i[id origFilename realpath dataverseId status created_at updated_at dataload_id]
+  })
     json = as_json(options)
-    json[:fileName] = json[:filename]
-    json.delete(:filename)
+    json['storageIdentifier'] = DataverseService::StorageIdentifier.to_uri(id: json['storageIdentifier'])
+    json['fileName'] = json['filename']
+    json.delete('filename')
     json
   end
 end
