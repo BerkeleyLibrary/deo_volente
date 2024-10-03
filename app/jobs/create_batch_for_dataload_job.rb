@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # job to enumerate files within a directory for a dataload
-class EnumerateFilesJob < ApplicationJob
+class CreateBatchForDataloadJob < ApplicationJob
   queue_as :default
 
   def perform(dataload:)
