@@ -5,7 +5,7 @@ require 'faraday/multipart'
 
 module DataverseService
   # API client to interact with Dataverse for out of band uploads
-  class APIClient
+  class ApiClient
     attr_accessor :base_uri, :api_key
 
     # constructor for DataverseService::APIClient

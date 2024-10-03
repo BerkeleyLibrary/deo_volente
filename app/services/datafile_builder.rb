@@ -8,25 +8,25 @@ class DatafileBuilder
     pathname = Pathname.new(@origFilename)
     @filename = pathname.basename.to_s
     @realpath = pathname.realpath
-    dir_label = pathname.relative_path_from(dataload.realpath)[0]
+    dir_label, _fn = pathname.relative_path_from(dataload.realpath).split
     @directoryLabel = dir_label == '.' ? '' : dir_label
     @storageIdentifier = DataverseService::StorageIdentifier.new
     @md5Hash = Digest::MD5.file(@realpath).hexdigest
     @mimeType = Marcel::MimeType.for @realpath, name: @filename
   end
 
-  def call(*)
-    new(*).build_datafile
+  def self.call(**)
+    new(**).send(:build_datafile)
   end
 
   private
 
   def build_datafile
-    @dataload.create_datafile!(origFilename: @origFilename,
-                               filename: @filename, realpath: @realpath,
-                               directoryLabel: @directoryLabel,
-                               storageIdentifier: @storageIdentifier.to_s,
-                               md5Hash: @md5Hash, mimeType: @mimeType,
-                               description: '', status: :in_progress)
+    @dataload.datafiles.create!(origFilename: @origFilename,
+                                filename: @filename, realpath: @realpath,
+                                directoryLabel: @directoryLabel,
+                                storageIdentifier: @storageIdentifier.to_s,
+                                md5Hash: @md5Hash, mimeType: @mimeType,
+                                description: '', status: :in_progress)
   end
 end
