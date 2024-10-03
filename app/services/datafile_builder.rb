@@ -9,7 +9,7 @@ class DatafileBuilder
     @filename = pathname.basename.to_s
     @realpath = pathname.realpath
     dir_label, _fn = pathname.relative_path_from(dataload.realpath).split
-    @directoryLabel = dir_label == '.' ? '' : dir_label
+    @directoryLabel = dir_label.to_s == '.' ? '' : dir_label
     @storageIdentifier = DataverseService::StorageIdentifier.new
     @md5Hash = Digest::MD5.file(@realpath).hexdigest
     @mimeType = Marcel::MimeType.for @realpath, name: @filename

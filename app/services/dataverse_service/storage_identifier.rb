@@ -21,6 +21,10 @@ module DataverseService
       "#{@driver}#{@separator}#{@prefix}#{@prefix_separator}#{@id}"
     end
 
+    def self.to_uri(**)
+      new(**).to_uri
+    end
+
     def self.generate
       # get milliseconds since epoch, and convert to hex digits
       timestamp = Process.clock_gettime(Process::CLOCK_REALTIME, :millisecond)
