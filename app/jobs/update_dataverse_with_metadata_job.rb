@@ -7,9 +7,9 @@ class UpdateDataverseWithMetadataJob < ApplicationJob
   queue_as :default
 
   def perform(datafile:)
-    client = DataverseService::APIClient.new
+    client = DataverseService::ApiClient.new
     # @todo better error handling
-    rsp = client.add_file(batch.properties[:dataload].bare_doi, datafile)
+    rsp = client.add_file(batch.properties[:dataload].bare_doi, metadata: datafile.as_dataverse_json)
     response_df = rsp.dig(:body, :data, :files)
     if response.dig(:body, :status) == 'OK' && !response_df.nil?
       dataverseId = response_df.first.dig(:dataFile, :id)

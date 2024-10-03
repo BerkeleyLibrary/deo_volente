@@ -10,10 +10,12 @@ class EnumerateFilesJob < ApplicationJob
     batch.properties[:dataload] = dataload
     batch.properties[:source_path] = DataverseService::Mountpoints.new.public_send("#{dataload.mountPoint}_path")
 
-    batch.enqueue do
+    batch.add do
       Pathname.new(batch.properties[:source_path]).glob('**/*') do |f|
-        PrepareDatafileObjectJob.perform_later(orig_filename: f.to_s)
+        PrepareDatafileObjectJob.perform_later(orig_filename: f.to_s) if File.file?(f)
       end
     end
+
+    batch.enqueue(on_success: 'CreateDatafileInDataverseCallbackJob')
   end
 end
