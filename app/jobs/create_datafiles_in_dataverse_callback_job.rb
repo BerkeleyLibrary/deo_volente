@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # callback job to create datafiles in dataverse
-class CreateDatafileInDataverseCallbackJob < ApplicationJob
+class CreateDatafilesInDataverseCallbackJob < ApplicationJob
   queue_as :default
 
   def perform(batch, _context)
