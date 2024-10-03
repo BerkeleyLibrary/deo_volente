@@ -2,8 +2,6 @@
 
 require 'rails_helper'
 
-DVG = 'cn=edu:berkeley:org:libr:dataverse:deovolente,ou=campus groups,dc=berkeley,dc=edu'
-
 RSpec.describe User do
   let(:auth) do
     {
@@ -38,7 +36,7 @@ RSpec.describe User do
   end
 
   it 'sets dataverse_user to true if user is a member of deo volente' do
-    auth['extra']['berkeleyEduIsMemberOf'] = DVG
+    auth['extra']['berkeleyEduIsMemberOf'] = described_class::DEOVOLENTE_GROUP
     user = described_class.from_omniauth(auth)
     expect(user.dataverse_user).to be(true)
   end
