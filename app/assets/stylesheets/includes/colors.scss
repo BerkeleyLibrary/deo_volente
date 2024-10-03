@@ -1,0 +1,59 @@
+// ////////////////////////////////////////////////////////////
+// Colors
+
+// //////////////////////////////
+// UC brand colors
+
+$color-berkeley-blue: #003262;
+$color-founders-rock: #3b7ea1;
+$color-california-gold: #fdb515;
+$color-medalist: #c4820e;
+$color-wellman-tile: #d9661f;
+// NOTE: We tweak the "Rose Garden" color slightly vs. Berkeley
+//       brand guidelines so that provides enough contrast as a
+//       background for white text (4.66:1, WCAG AA)
+// $color-rose-garden: #ee1f60;
+$color-rose-garden: #e50c51;
+$color-golden-gate: #ed4e33;
+$color-south-hall: #6c3302;
+$color-bay-fog: #ddd5c7;
+$color-lawrence: #00b0da;
+$color-lap-lane: #00a598;
+$color-pacific: #46535e;
+$color-sather-gate: #b9d3b6;
+$color-soybean: #859438;
+$color-stone-pine: #584f29;
+$color-background-grey: #eeeeee;
+$color-web-grey: #888888;
+
+// //////////////////////////////
+// As used
+
+$color-background: white;
+$color-foreground: black;
+$color-background-reversed: $color-pacific;
+
+$color-site-name: $color-pacific;
+$color-header-divider: $color-web-grey;
+
+$color-row-divider: $color-bay-fog;
+$color-anchor-highlight: $color-california-gold;
+
+// Actions
+
+$color-action-text: white;
+
+$color-action-primary:  $color-berkeley-blue;
+$color-action-secondary: $color-pacific;
+
+$color-disabled: $color-web-grey;
+
+// Messages
+
+$color-success: $color-berkeley-blue;
+$color-warning: $color-south-hall;
+$color-danger: $color-rose-garden;
+
+$color-success-border: $color-lawrence;
+$color-warning-border: $color-wellman-tile;
+$color-danger-border: $color-golden-gate;

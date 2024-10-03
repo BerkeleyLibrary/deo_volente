@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 ruby '3.3.5'
 
 gem 'bootsnap', require: false
+gem 'dartsass-sprockets', '~> 3.0'
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'puma', '>= 5.0'
@@ -19,6 +20,7 @@ gem 'faraday-multipart'
 gem 'good_job'
 gem 'omniauth'
 gem 'omniauth-cas'
+gem 'omniauth-rails_csrf_protection'
 gem 'pg'
 
 group :development, :test do

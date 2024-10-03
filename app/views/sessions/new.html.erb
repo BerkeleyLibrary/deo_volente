@@ -1,0 +1,7 @@
+<%= form_tag('/auth/developer', method: 'post', data: {turbo: false}) do %>
+  <button type='submit'>Login with Developer</button>
+<% end %>
+<br>
+<%= form_tag('/auth/cas', method: 'post', data: {turbo: false}) do %>
+  <button type='submit'>Login with CAS</button>
+<% end %>

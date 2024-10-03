@@ -1,0 +1,14 @@
+<% if signed_in? %>
+  <% if dataverse_user? %>
+    <p>HOORAY <%= current_user[:display_name] %> you have access!</p>
+    <!--
+    <p>Logged in as: <%= current_user[:email] %></p>
+    <p>Current USER: <%= current_user.inspect %></p>
+    -->
+  <% else %>
+    <p>You are NOT a Dataverse user</p>
+    <p>You DO NOT get to pass GO... You do not get to collect two hundred dollars!!!!</p>
+  <% end %>
+<% else %>
+  <p>You're not logged in...</p>
+<% end %>

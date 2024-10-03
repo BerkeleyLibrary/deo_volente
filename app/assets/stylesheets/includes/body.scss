@@ -1,0 +1,25 @@
+@import 'globals';
+
+body {
+  background-color: $color-background;
+  color: $color-foreground;
+
+  font-family: $font-family-sans;
+  font-weight: $font-weight-normal;
+
+  font-size: inherit;
+  line-height: $line-height;
+
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+  min-height: min-content;
+
+  padding: 0;
+  margin: 0;
+  
+  main {
+    flex-grow: 999;
+  }
+}
