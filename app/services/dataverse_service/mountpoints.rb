@@ -5,11 +5,8 @@ module DataverseService
   class Mountpoints
     # instantiates an object to access mountpoint configuration
     #
-    # @param config [Hash] a configuration object; defaults to rails config
-    #   and expects a structure of:
-    #   { source: [{ path: '/foo', label: 'foo' }], destination: '/bar' }
-    def initialize(config: {})
-      @config = config.empty? ? Rails.configuration.x.mountpoints : config
+    def initialize
+      @config = Rails.configuration.x.mountpoints
     end
 
     def source

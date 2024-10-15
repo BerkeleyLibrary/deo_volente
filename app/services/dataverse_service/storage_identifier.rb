@@ -21,10 +21,6 @@ module DataverseService
       "#{@driver}#{@separator}#{@prefix}#{@prefix_separator}#{@id}"
     end
 
-    def self.to_uri(**)
-      new(**).to_uri
-    end
-
     def self.generate
       # get milliseconds since epoch, and convert to hex digits
       timestamp = Process.clock_gettime(Process::CLOCK_REALTIME, :millisecond)
@@ -35,6 +31,14 @@ module DataverseService
       hex_random = uuid[24..]
 
       "#{hex_timestamp}-#{hex_random}"
+    end
+
+    def self.to_s(**)
+      new(**).to_s
+    end
+
+    def self.to_uri(**)
+      new(**).to_uri
     end
   end
 end
