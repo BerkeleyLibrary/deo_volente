@@ -4,10 +4,12 @@
 class Dataload < ApplicationRecord
   has_many :datafiles, dependent: :destroy
 
+  scope :non_archived, -> { where.not(status: 4) }
+
   validates :doi, :mountPoint, :directory, :user_name, presence: true
   validates :user_email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
-  enum :status, { created: 0, in_progress: 1, completed: 2, failed: 3, archived: 4 }, default: :created
+  enum :status, { created: 0, in_progress: 1, completed: 2, failed: 3 }, default: :created
 
   # TODO: check mount/directory for files
   def file?; end

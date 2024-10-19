@@ -21,5 +21,5 @@ Rails.application.routes.draw do
   # Logout route
   delete '/logout', to: 'sessions#destroy'
 
-  resources :data_uploads, only: [:new, :create]
+  resources :data_loads
 end
