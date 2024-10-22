@@ -6,6 +6,18 @@
     * the "complex batches" writeup in the good_job docs seems very confusing here 
 * do we actually need the files in the database at all? (i think we do to materialize the batches to send them up to dataverse)
 
+## updated
+```mermaid
+flowchart
+    CreateBatchForDataloadJob -->|add| PrepareDatafileObjectJob_1 & PrepareDatafileObjectJob_2 & PrepareDatafileObjectJob_N
+        PrepareDatafileObjectJob_1 -->|add| CopyDatafileToDataverseMountJob_1
+        PrepareDatafileObjectJob_2 -->|add| CopyDatafileToDataverseMountJob_2
+        PrepareDatafileObjectJob_N -->|add|CopyDatafileToDataverseMountJob_N
+        CopyDatafileToDataverseMountJob_1 & CopyDatafileToDataverseMountJob_2 & CopyDatafileToDataverseMountJob_N -.- CreateDatafilesInDataverseCallbackJob
+        CreateBatchForDataloadJob -->|enqueue; on_success| CreateDatafilesInDataverseCallbackJob -->|add| UpdateDataverseWithMetadataJob_1 & UpdateDataverseWithMetadataJob_2 &   UpdateDataverseWithMetadataJob_N -.- CleanupCallbackJob
+        CreateDatafilesInDataverseCallbackJob -->|enqueue; on_success/on_discard| CleanupCallbackJob
+```
+
 ## original proposed job structure
 
 ```mermaid
