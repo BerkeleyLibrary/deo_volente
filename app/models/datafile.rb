@@ -23,4 +23,17 @@ class Datafile < ApplicationRecord
     json.delete('filename')
     json
   end
+
+  def copy_to_dataverse_directory(dest_fn:)
+    dest_path = Pathname.new(dest_fn)
+    FileUtils.mkdir_p(dest_path.dirname)
+    FileUtils.cp(origFilename, dest_path)
+    dest_md5 = Digest::MD5.file(dest_path).hexdigest
+    if md5Hash == dest_md5
+      update!(status: :completed)
+    else
+      update!(status: :failed)
+      raise StandardError, "Destination #{dest_fn} (#{dest_md5} does not match source #{origFilename} #{md5Hash}"
+    end
+  end
 end
