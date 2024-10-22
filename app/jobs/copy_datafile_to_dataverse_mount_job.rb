@@ -7,20 +7,10 @@ class CopyDatafileToDataverseMountJob < ApplicationJob
   queue_as :default
 
   def perform(datafile:)
-    dest_fn = dest_path(datafile:).join(datafile.storageIdentifier)
-    FileUtils.mkdir_p(dest_path(datafile:))
-    FileUtils.cp(datafile.origFilename, dest_fn)
-    dest_md5 = Digest::MD5.file(dest_fn).hexdigest
-    return unless datafile.md5Hash != dest_md5
-
-    datafile.update!(status: :failed)
-    raise StandardError,
-          "Destination #{dest_fn} (#{dest_md5} does not match source #{datafile.origFilename} #{datafile.md5Hash}"
-  end
-
-  def dest_path(datafile:)
-    dest = DataverseService::Mountpoints.new.destination
-    Pathname(dest).join(*batch.properties[:dataload].path_doi,
-                        datafile.directoryLabel)
+    dest_fn = Pathname(DataverseService::Mountpoints.new.destination)
+              .join(*batch.properties[:dataload].path_doi,
+                    datafile.directoryLabel,
+                    datafile.storageIdentifier)
+    datafile.copy_to_dataverse_directory(dest_fn:)
   end
 end
