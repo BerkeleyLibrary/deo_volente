@@ -1,1 +1,46 @@
-<h1>Show me your Dataload!!!!</h1>
+
+<div class="top-section">
+  <div class="container">
+  <h1>Data Load <%= @data_load.id %></h1>
+  <button><%= link_to 'Back', data_loads_path %></button>
+  </div>
+  <p>
+    <strong>ID:</strong>
+    <%= @data_load.id %>
+    <br />
+    <strong>DOI:</strong>
+    <%= @data_load.doi %>
+    <br />
+    <strong>Mount Point:</strong>
+    <%= @data_load.mountPoint %>
+    <br />
+    <strong>Directory:</strong>
+    <%= @data_load.directory %>
+    <br />
+    <strong>User Email:</strong>
+    <%= @data_load.user_email %>
+    <br />
+    <strong>Status:</strong>
+    <%= @data_load.status %>
+    <br />
+    <strong>Created At:</strong>
+    <%= format_datetime(@data_load.created_at) %> (PDT)
+    <br />
+    <strong>Last Updated:</strong>
+    <%= format_datetime(@data_load.updated_at) %> (PDT)
+    <br />
+    <strong>Archived:</strong>
+    <%= @data_load.archived? %>
+    <br />
+  </p>
+  <% if @data_load.archived %>
+    <p>
+      <strong>Archived</strong>
+    </p>
+  <% else %>
+    <%= form_with(model: @data_load, url: data_load_path(@data_load), method: :patch) do |form| %>
+      <%= form.hidden_field :archived, value: true %>
+      <%= form.submit "Archive", data: { confirm: "Are you sure you want to submit this form?" }  %>
+    <% end %>
+  <% end %>
+</div>

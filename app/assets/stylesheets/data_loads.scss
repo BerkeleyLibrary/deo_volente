@@ -1,21 +1,22 @@
 @import './includes/shared';
+@import './includes/pagy';
 
-table.data-loads {
+.top-section {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.data-loads {
+  background-color: $color-background;
   margin-top: 2rem;
   margin-bottom: 2rem;
 
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 
-  border-top: 1px solid $color-background-grey;
-  border-bottom: 1px solid $color-background-grey;
-
-  table.options {
-    margin-top: 0;
-  }
-}
-
-table.data-loads-list {
+  // border-top: 1px solid $color-background-grey;
+  // border-bottom: 1px solid $color-background-grey;
+  
   width: 100%;
   font-size: smaller;
 
@@ -25,7 +26,7 @@ table.data-loads-list {
 
   th, td {
     padding: 0.5rem;
-    border-bottom: 1px solid $color-background-grey;
+    // border-bottom: 1px solid $color-background-grey;
     white-space: nowrap;
   }
 
@@ -42,7 +43,6 @@ table.data-loads-list {
   }
 }
 
-
 // Center our pagination links
 .pagination {
   display: flex;
@@ -50,52 +50,12 @@ table.data-loads-list {
   align-items: center;
 }
 
-// Todo - customize this a bit more
-.pagy {
-  display: flex;
-  font-family: sans-serif;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 600;
-  color: rgb(107 114 128);
-  & > :not([hidden]) ~ :not([hidden]) {
-    --space-reverse: 0;
-    margin-right: calc(0.25rem * var(--space-reverse));
-    margin-left: calc(0.25rem * calc(1 - var(--space-reverse)));
-  }
+/* Arrow up for ascending */
+th a.current.asc::after {
+  content: " ▲"; 
+}
 
-  a:not(.gap) {
-    display: block;
-    text-decoration: none;
-    border-radius: 0.5rem;
-    background-color: rgb(229 231 235);
-    padding: 0.25rem 0.75rem;
-    color: inherit;
-    &:hover {
-      background-color: rgb(209 213 219);
-    }
-    &:not([href]) { /* disabled links */
-      cursor: default;
-      background-color: rgb(243 244 246);
-      color: rgb(209 213 219);
-    }
-    &.current {
-      background-color: rgb(156 163 175);
-      color: rgb(255 255 255);
-    }
-  }
-
-  label {
-    white-space: nowrap;
-    display: inline-block;
-    border-radius: 0.5rem;
-    background-color: rgb(229 231 235);
-    padding: 0.125rem 0.75rem;
-    input {
-      line-height: 1.5rem;
-      border-radius: 0.375rem;
-      border-style: none;
-      background-color: rgb(243 244 246);
-    }
-  }
+/* Arrow down for descending */
+th a.current.desc::after {
+  content: " ▼"; 
 }

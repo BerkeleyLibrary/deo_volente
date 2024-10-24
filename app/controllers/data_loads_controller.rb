@@ -15,25 +15,32 @@ class DataLoadsController < ApplicationController
 
     session[:show_archived] = archive_param != 'false'
 
-    sort_by = params[:sort_by] || 'id'
-    sort_direction = params[:direction] == 'desc' ? 'desc' : 'asc'
+    @sort_by = params[:sort_by] || 'id'
+    @sort_direction = params[:direction] == 'desc' ? 'desc' : 'asc'
 
     if session[:show_archived]
-      @pagy, @data_loads = pagy(Dataload.order("#{sort_by} #{sort_direction}"))
+      @pagy, @data_loads = pagy(Dataload.order("#{@sort_by} #{@sort_direction}"))
     else
-      @pagy, @data_loads = pagy(Dataload.where.not(archived: true).order("#{sort_by} #{sort_direction}"))
+      @pagy, @data_loads = pagy(Dataload.where.not(archived: true).order("#{@sort_by} #{@sort_direction}"))
     end
   end
 
   # GET /data_loads/1
-  # TODO: Show a specific dataload
-  def show; end
+  def show
+    @data_load = Dataload.find(params[:id])
+  end
 
   # TODO: Form to create new dataload
   def new; end
 
   # TODO: Create a new dataload!!!
   def create; end
+
+  def update
+    @data_load = Dataload.find(params[:id])
+    # s@data_load.update(archived: true)
+    redirect_to data_loads_path
+  end
 
   private
 

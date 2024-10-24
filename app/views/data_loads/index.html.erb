@@ -1,47 +1,51 @@
-<h1>Data Loads</h1>
-<form action="/data_loads" method="get">
-    <% if session[:show_archived] %>
-        <input type="hidden" name="show_archived" value="false" />
-        <input type="submit" value="Hide Archived" />
-    <% else %>
-        <input type="hidden" name="show_archived" value="true" />
-        <input type="submit" value="Show Archived" />
-    <% end %>
-</form>
-<table class="data-loads data-loads-list">
-    <thead>
-        <tr>
-            <th><%= sortable "id", "ID" %></th>
-            <th><%= sortable "doi", "Dataset DOI" %></th>
-            <th><%= sortable "user_email", "Email" %></th>
-            <th>Mount Point/Directory</th>
-            <th><%= sortable "status", "Status" %></th>
-            <th><%= sortable "created_at", "Start time (PDT)" %></th>
-            <th><%= sortable "updated_at", "End time (PDT)" %></th>
-            <th>Inspect</th>
-            <th>Archived</th>
-        </tr>
-    </thead>
-    <tbody>
-    <p>
-        <% @data_loads.each do |data_load| %>
+<div class="top-section">
+    <div class="container">
+        <h1>Data Loads</h1>
+        <form action="/data_loads" method="get">
+            <% if session[:show_archived] %>
+                <input type="hidden" name="show_archived" value="false" />
+                <input type="submit" value="Hide Archived" />
+            <% else %>
+                <input type="hidden" name="show_archived" value="true" />
+                <input type="submit" value="Show Archived" />
+            <% end %>
+        </form>
+    </div>
+    <table class="data-loads">
+        <thead>
             <tr>
-                <td><%= data_load.id %></td>
-                <td><%= data_load.doi %></td>
-                <td><%= data_load.user_email %></td>
-                <td><%= data_load.mountPoint + data_load.directory %></td>
-                <td><%= data_load.status %></td>
-                <td><%= format_datetime(data_load.created_at) %></td>
-                <td><%= format_datetime(data_load.updated_at) %></td>
-                <td>Inspect <%= data_load.id %></td>
-                <td><%= data_load.archived %></td>
+                <th><%= sortable "id", "ID" %></th>
+                <th><%= sortable "doi", "Dataset DOI" %></th>
+                <th><%= sortable "user_email", "Email" %></th>
+                <th>Mount Point: Directory</th>
+                <th><%= sortable "status", "Status" %></th>
+                <th><%= sortable "created_at", "Start time (PDT)" %></th>
+                <th><%= sortable "updated_at", "End time (PDT)" %></th>
+                <th>Inspect</th>
+                <th>Archived</th>
             </tr>
-        <% end %>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        <p>
+            <% @data_loads.each do |data_load| %>
+                <tr>
+                    <td><%= link_to data_load.id, data_load_path(data_load.id), class: "no_class" %></td>
+                    <td><%= data_load.doi %></td>
+                    <td><%= data_load.user_email %></td>
+                    <td><%= data_load.mount_point_directory %></td>
+                    <td><%= data_load.status %></td>
+                    <td><%= format_datetime(data_load.created_at) %></td>
+                    <td><%= format_datetime(data_load.completed_at()) %></td>
+                    <td><%= link_to "Inspect #{data_load.id}", data_load_path(data_load.id), class: "no_class" %></td>
+                    <td><%= data_load.archived? %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
 
-<!-- Pagy pagination links -->
-<div class='pagination'>
-<%== pagy_nav(@pagy) %>
+    <!-- Pagy pagination links -->
+    <div class='pagination'>
+    <%== pagy_nav(@pagy) %>
+    </div>
+    <br>
 </div>
-<br>
