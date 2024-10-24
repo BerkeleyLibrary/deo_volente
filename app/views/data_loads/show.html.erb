@@ -38,9 +38,9 @@
       <strong>Archived</strong>
     </p>
   <% else %>
-    <%= form_with(model: @data_load, url: data_load_path(@data_load), method: :patch) do |form| %>
+    <%= form_with(model: @data_load, data:{ controller: "dataloads", dataloads_id_value: @data_load.id, dataloads_doi_value: @data_load.doi}, url: data_load_path(@data_load), method: :patch) do |form| %>
       <%= form.hidden_field :archived, value: true %>
-      <%= form.submit "Archive", data: { confirm: "Are you sure you want to submit this form?" }  %>
+      <%= form.submit "Archive", data: { action: "dataloads#confirm" }  %>
     <% end %>
   <% end %>
 </div>

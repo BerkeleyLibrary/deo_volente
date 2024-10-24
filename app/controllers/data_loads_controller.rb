@@ -38,7 +38,7 @@ class DataLoadsController < ApplicationController
 
   def update
     @data_load = Dataload.find(params[:id])
-    # s@data_load.update(archived: true)
+    @data_load.update(archived: true)
     redirect_to data_loads_path
   end
 
