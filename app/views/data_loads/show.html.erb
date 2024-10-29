@@ -17,30 +17,58 @@
     <strong>Directory:</strong>
     <%= @data_load.directory %>
     <br />
-    <strong>User Email:</strong>
-    <%= @data_load.user_email %>
-    <br />
     <strong>Status:</strong>
     <%= @data_load.status %>
-    <br />
-    <strong>Created At:</strong>
-    <%= format_datetime(@data_load.created_at) %> (PDT)
-    <br />
-    <strong>Last Updated:</strong>
-    <%= format_datetime(@data_load.updated_at) %> (PDT)
     <br />
     <strong>Archived:</strong>
     <%= @data_load.archived? %>
     <br />
+    <p>TODO: link to the top-level job in the GoodJob dashboard</p>
   </p>
   <% if @data_load.archived %>
     <p>
       <strong>Archived</strong>
     </p>
   <% else %>
-    <%= form_with(model: @data_load, data:{ controller: "dataloads", dataloads_id_value: @data_load.id, dataloads_doi_value: @data_load.doi}, url: data_load_path(@data_load), method: :patch) do |form| %>
-      <%= form.hidden_field :archived, value: true %>
-      <%= form.submit "Archive", data: { action: "dataloads#confirm" }  %>
+    <% if @data_load.status == "completed" || @data_load.status == "failed" %>
+      <%= form_with(model: @data_load, data:{ controller: "dataloads", dataloads_id_value: @data_load.id, dataloads_doi_value: @data_load.doi}, url: data_load_path(@data_load), method: :patch) do |form| %>
+        <%= form.hidden_field :archived, value: true %>
+        <%= form.submit "Archive", data: { action: "dataloads#confirm" }  %>
+      <% end %>
     <% end %>
   <% end %>
 </div>
+<div class="top-section">
+<br>
+<hr>
+<p>
+TODO: setup file list for dataload...and add pagination
+</p>
+
+<h2>File List</h2>
+<div class="container">
+  <table class="data-loads">
+    <thead>
+      <tr>
+        <th>Basename</th>
+        <th>Directory label</th>
+        <th>Storage identifier</th>
+        <th>MIME type</th>
+        <th>Checksum</th>
+        <th>Dataverse ID</th>
+        <th>Restart Link</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>fakeID</td>
+          <td>completed</td>
+          <td>job.job_type</td>
+          <td>job.enqueued_at</td>
+          <td>job.started_at</td>
+          <td>job.finished_at</td>
+          <td>job.error_message</td>
+        </tr>
+    </tbody>
+  </table>
+  </div>

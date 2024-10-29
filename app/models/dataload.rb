@@ -19,16 +19,16 @@ class Dataload < ApplicationRecord
 
   def completed_at
     # Only show the "End Time" if the status is "completed" or "failed"
-    return self.updated_at if self.status == 'completed' || self.status == 'failed'
+    return updated_at if status == 'completed' || status == 'failed'
+
     nil
   end
 
   def mount_point_directory
-    "#{self.mountPoint}: #{self.directory}"
+    "#{mountPoint}: #{directory}"
   end
 
   def archived?
-    self.archived ? 'Yes' : 'No'
+    archived ? 'Yes' : 'No'
   end
 end
-

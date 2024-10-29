@@ -10,8 +10,9 @@ module ApplicationHelper
   def sortable(column, title = nil)
     title ||= column.titleize
     direction = column == params[:sort_by] && params[:direction] == 'asc' ? 'desc' : 'asc'
-    
-    link_to title, { sort_by: column, direction: }, class: column == @sort_by ? "current #{@sort_direction}" : nil
+    sort_by = params[:sort_by]
+
+    link_to title, { sort_by: column, direction: }, class: column == sort_by ? "current #{params[:direction]}" : nil
   end
 
   def format_datetime(time, format: '%Y-%b-%d %H:%M')

@@ -18,11 +18,7 @@ class DataLoadsController < ApplicationController
     @sort_by = params[:sort_by] || 'id'
     @sort_direction = params[:direction] == 'desc' ? 'desc' : 'asc'
 
-    if session[:show_archived]
-      @pagy, @data_loads = pagy(Dataload.order("#{@sort_by} #{@sort_direction}"))
-    else
-      @pagy, @data_loads = pagy(Dataload.where.not(archived: true).order("#{@sort_by} #{@sort_direction}"))
-    end
+    @pagy, @data_loads = display_data(session[:show_archived])
   end
 
   # GET /data_loads/1
@@ -39,6 +35,7 @@ class DataLoadsController < ApplicationController
   def update
     @data_load = Dataload.find(params[:id])
     @data_load.update(archived: true)
+    flash['notice'] = "Dataload #{@data_load[:id]} for #{@data_load[:doi]} has been archived."
     redirect_to data_loads_path
   end
 
@@ -48,5 +45,15 @@ class DataLoadsController < ApplicationController
     return true if signed_in? && dataverse_user?
 
     render :forbidden, status: :forbidden
+  end
+
+  def display_data(show_archived)
+    if show_archived
+      pagy, data_loads = pagy(Dataload.order("#{@sort_by} #{@sort_direction}"))
+    else
+      pagy, data_loads = pagy(Dataload.where.not(archived: true).order("#{@sort_by} #{@sort_direction}"))
+    end
+
+    [pagy, data_loads]
   end
 end
