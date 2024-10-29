@@ -36,4 +36,18 @@ class Datafile < ApplicationRecord
       raise StandardError, "Destination #{dest_fn} (#{dest_md5} does not match source #{origFilename} #{md5Hash}"
     end
   end
+
+  def create_dataverse_object(doi:)
+    client = DataverseService::ApiClient.new
+    # @todo better error handling
+    rsp = client.add_file(doi, metadata: as_dataverse_json)
+    response_df = rsp.dig(:body, :data, :files)
+    if rsp.dig(:body, :status) == 'OK'
+      dataverseId = response_df.first.dig(:dataFile, :id)
+      update!(dataverseId:, status: :completed)
+    else
+      update!(status: :failed)
+      raise StandardError, "Datafile #{filename} did not upload successfully; response: #{rsp[:body].as_json}"
+    end
+  end
 end
