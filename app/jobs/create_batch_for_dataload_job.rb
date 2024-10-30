@@ -7,17 +7,13 @@ class CreateBatchForDataloadJob < ApplicationJob
   def perform(dataload:)
     dataload.update!(status: :in_progress)
     batch = GoodJob::Batch.new
-    batch.properties[:dataload] = dataload
-    batch.properties[:dataload_gid] = dataload.to_global_id.to_s
-    batch.properties[:doi] = dataload.doi
-    batch.properties[:source_path] = dataload.realpath.to_s
-    batch.description = "Dataload #{dataload.id}: source: #{dataload.realpath}; destination DOI #{dataload.doi}"
-    batch.save
+    batch.properties.merge!(dataload:, dataload_gid: dataload.to_global_id.to_s,
+                            doi: dataload.doi,
+                            source_path: dataload.realpath.to_s,
+                            description: "Dataload #{dataload.id}: src: #{dataload.realpath}; dst: DOI #{dataload.doi}")
 
-    batch.add do
-      Pathname.new(batch.properties[:source_path]).glob('**/*') do |f|
-        PrepareDatafileObjectJob.perform_later(orig_filename: f.to_s) if File.file?(f)
-      end
+    Pathname.new(batch.properties[:source_path]).glob('**/*') do |f|
+      batch.add { PrepareDatafileObjectJob.perform_later(orig_filename: f.to_s) } unless File.directory?(f)
     end
 
     batch.enqueue(on_success: 'CreateDatafilesInDataverseCallbackJob')
