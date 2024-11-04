@@ -4,8 +4,6 @@
 class Dataload < ApplicationRecord
   has_many :datafiles, dependent: :destroy
 
-  scope :non_archived, -> { where.not(status: 4) }
-
   validates :doi, :mountPoint, :directory, :user_name, presence: true
   validates :user_email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
