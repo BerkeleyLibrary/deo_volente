@@ -13,7 +13,7 @@ class CreateBatchForDataloadJob < ApplicationJob
                             description: "Dataload #{dataload.id}: src: #{dataload.realpath}; dst: DOI #{dataload.doi}")
 
     Pathname.new(batch.properties[:source_path]).glob('**/*') do |f|
-      batch.add { PrepareDatafileObjectJob.perform_later(orig_filename: f.to_s) } unless File.directory?(f)
+      batch.add { PrepareDatafileObjectJob.perform_later(orig_filename: f.to_s, dataload:) } unless File.directory?(f)
     end
 
     batch.enqueue(on_success: 'CreateDatafilesInDataverseCallbackJob')

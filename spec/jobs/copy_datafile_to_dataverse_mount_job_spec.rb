@@ -1,5 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe CopyDatafileToDataverseMountJob, type: :job do
-  pending "add some examples to (or delete) #{__FILE__}"
-end
+  include ActiveJob::TestHelper
+
+  subject(:job) { described_class }
+  
+  describe '#perform' do
+    it 'enqueues the job'
+  end

@@ -7,23 +7,13 @@ RSpec.describe CreateBatchForDataloadJob, type: :job do
 
   let(:dataload) { create(:dataload) }
 
-  before do
-    FakeFS do
-      FakeFS::FileSystem.clone('spec/data', '/srv/da/foobar')
-    end
-  end
-
   describe '#perform' do
-    it 'queues the job' do
-      expect { job }.to have_enqueued_job(described_class)
+    it 'enqueues the job' do
+      expect { job }.to have_enqueued_job(described_class).with(dataload:)
     end
 
-    it 'creates a batch of jobs' do
+    it 'enqueues the callback job' do
+      expect { job.perform_now }.to have_enqueued_job(CreateDatafilesInDataverseCallbackJob)
     end
   end
-  # it 'creates a batch'
-  #   (this job is enqueued)
-  #   given director of x files, it enqueues 1 batch
-  #   and that batch should have x jobs
-  #   after enqueued, thec callback should be enqued
 end

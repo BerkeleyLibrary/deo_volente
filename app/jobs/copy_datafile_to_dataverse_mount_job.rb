@@ -6,11 +6,7 @@ class CopyDatafileToDataverseMountJob < ApplicationJob
 
   queue_as :default
 
-  def perform(datafile:)
-    dest_fn = Pathname(DataverseService::Mountpoints.new.destination)
-              .join(*batch.properties[:dataload].path_doi,
-                    datafile.directoryLabel,
-                    datafile.storageIdentifier)
+  def perform(datafile:, dest_fn:)
     datafile.copy_to_dataverse_directory(dest_fn:)
   end
 end
