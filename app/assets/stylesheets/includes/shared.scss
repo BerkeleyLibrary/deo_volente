@@ -7,8 +7,6 @@ html {
   font-variant-numeric: lining-nums !important;
 }
 
-
-
 h1 {
   font-size: $font-size-xlarge !important;
   line-height: $line-height !important;
@@ -16,3 +14,20 @@ h1 {
   font-weight: $font-weight-bold;
 }
 
+.flash {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid black;
+  font-size: $font-size-large;
+}
+
+.flash.notice {
+  background-color: $color-flash-notice;
+  color: white;
+}
+
+.flash.alert {
+  background-color: $color-flash-alert;
+  color: white;
+}

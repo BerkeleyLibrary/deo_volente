@@ -1,0 +1,61 @@
+@import './includes/shared';
+@import './includes/pagy';
+
+.top-section {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.data-loads {
+  background-color: $color-background;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+
+  // border-top: 1px solid $color-background-grey;
+  // border-bottom: 1px solid $color-background-grey;
+  
+  width: 100%;
+  font-size: smaller;
+
+  th {
+    text-align: left;
+  }
+
+  th, td {
+    padding: 0.5rem;
+    // border-bottom: 1px solid $color-background-grey;
+    white-space: nowrap;
+  }
+
+  tbody {
+    tr:nth-child(odd) {
+      background-color: $color-background-grey;
+    }
+
+    tr:last-of-type {
+      th, td {
+        border-bottom: none;
+      }
+    }
+  }
+}
+
+// Center our pagination links
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Arrow up for ascending */
+th a.current.asc::after {
+  content: " ▲"; 
+}
+
+/* Arrow down for descending */
+th a.current.desc::after {
+  content: " ▼"; 
+}

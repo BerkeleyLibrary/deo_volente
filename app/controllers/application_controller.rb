@@ -2,6 +2,7 @@
 
 # ApplicationController is the base controller class for all controllers in the application.
 class ApplicationController < ActionController::Base
+  include Pagy::Backend
   include AuthSupport
   helper_method :current_user, :signed_in?, :dataverse_user?
 

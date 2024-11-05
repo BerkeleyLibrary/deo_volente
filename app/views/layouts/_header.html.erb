@@ -8,8 +8,8 @@
     <!-- Navigation links on the right -->
     <div class='nav-links'>
       <ul>
-        <li><%= link_to t('Great Stuff'), root_path %></li>
-        <li><%= link_to t('Cool Feature'), root_path %></li>
+        <li><%= link_to t('Data Loads'), data_loads_path %></li>
+        <li><%= link_to t('Coming Soon - Cool Stuff!'), root_path %></li>
         <li>
           <% if signed_in? %>
             <%= link_to 'CalNet Logout', logout_path, data: { turbo: false } %>
