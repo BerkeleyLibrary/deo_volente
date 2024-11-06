@@ -6,8 +6,7 @@ class UpdateDataverseWithMetadataJob < ApplicationJob
 
   queue_as :default
 
-  def perform(datafile:)
-    doi = batch.properties[:dataload].bare_doi
+  def perform(datafile:, doi:)
     datafile.create_dataverse_object(doi:)
   end
 end
