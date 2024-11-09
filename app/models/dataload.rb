@@ -29,4 +29,19 @@ class Dataload < ApplicationRecord
   def archived?
     archived ? 'Yes' : 'No'
   end
+
+  # returns a bare DOI (without protocol or proxy)
+  def bare_doi
+    doi[%r{10.\d{4,9}/[-._;()/:A-Z0-9]+$}]
+  end
+
+  def path_doi
+    bare_doi.split('/')
+  end
+
+  # @todo should this be obfuscated somehow?
+  def realpath
+    path = DataverseService::Mountpoints.new.public_send("#{mountPoint}_path")
+    Pathname.new(path).join(directory)
+  end
 end
