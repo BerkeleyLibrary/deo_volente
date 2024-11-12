@@ -28,4 +28,10 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  activerecord:
+    attributes:
+      dataload:
+        doi: "DOI: "
+        mountPoint: "Mount Point: "
+        directory: "Directory: "
+

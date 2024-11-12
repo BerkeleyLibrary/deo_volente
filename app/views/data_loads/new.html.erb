@@ -1,1 +1,17 @@
-<h1>All your data are belong to us!!!</h1>
+<h1>Create a New Data Load</h1>
+<br>
+<div class='top-section'>
+  <%= form_with model: @dataload, url: data_loads_path, local: false do |form| %>
+    <%= form.label :doi %>
+    <%= form.text_field :doi %>
+    <br>
+    <%= form.label :mountPoint %>
+    <%= form.text_field :mountPoint %>
+    <br>
+    <%= form.label :directory %>
+    <%= form.text_field :directory %>
+    <br>
+    <%= form.submit %>
+  <% end %>
+</div>
+<%# t("hello") %>
