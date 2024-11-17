@@ -31,7 +31,7 @@ en:
   activerecord:
     attributes:
       dataload:
-        doi: "DOI: "
-        mountPoint: "Mount Point: "
-        directory: "Directory: "
+        doi: "DOI"
+        mountPoint: "Mount Point"
+        directory: "Directory"
 

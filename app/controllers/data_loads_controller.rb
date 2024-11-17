@@ -26,26 +26,44 @@ class DataLoadsController < ApplicationController
     @data_load = Dataload.find(params[:id])
   end
 
-  # TODO: Form to create new dataload
+  # GET /data_loads/new
   def new
+    @mountpoints = DataverseService::Mountpoints.new.source
     @dataload = Dataload.new
+  end
+
+  # POST /data_loads/preview
+  def preview
+    @dataload = Dataload.new(dataload_params)
+
+    if @dataload.valid?
+      @files = Dir.glob(@dataload.realpath.join('**', '*')).map { |f| File.basename(f) }
+      render :preview
+    else
+      flash['notice'] = 'Dataload is not valid'
+      render :new
+    end
   end
 
   # TODO: Create a new dataload!!!
   def create
-    puts "------------------------------------------"
-    puts "------------------------------------------"
-    puts "------------------------------------------"
-    puts "HEYYYYY!!!!"
-    puts "------------------------------------------"
-    puts "------------------------------------------"
-    puts "------------------------------------------"
     @dataload = Dataload.new(dataload_params)
 
     if @dataload.save
-      flash['notice'] = "HELLLOOOO...is this thing on????"
-      redirect_to data_loads_path
+      # Start the dataload job!!!
+      @dataload.submit
+
+      flash['notice'] = "Created data load job #{@dataload.id}"
+
+      # if we want the user to see the dataload they just created
+      redirect_to action: :show, id: @dataload.id
+
+      # Orrrr....
+      # redirect_to home_path
     else
+      # TODO: Failed to save, go back to form???
+      # For now...
+      flash['alert'] = 'Failed to save data load job'
       render :new
     end
   end
@@ -79,20 +97,3 @@ class DataLoadsController < ApplicationController
     [pagy, data_loads]
   end
 end
-
-
-__END__
-
-Must have: A user should be able to create a new data load, which kicks off a new set of jobs.
-To create a new data load, the user must know:
-    the DOI for an existing Dataset in Dataverse (preferably in a “Draft” version)
-    the mount point / directory for the dataset’s files that have already been curated
-The user fills out the form and clicks Submit:
-    DOI: textfield 
-    Mount point: dropdown
-    Directory: textfield
-Upon clicking Submit:
-    Could have: The application calls the Dataverse API to get information about the Dataset the files will be loaded into. 
-    Must have: The user then sees a partial file listing to confirm the directory is correct.
-The user can click Save/Confirm or Cancel.
-Must have: Upon Save/Confirm, the new batch jobs are created, and the user is taken back to the application home again. A flash should appear saying that the data load has been created. 

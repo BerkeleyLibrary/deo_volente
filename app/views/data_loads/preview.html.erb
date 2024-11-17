@@ -1,0 +1,30 @@
+<h1>Preview Upload</h1>
+<div class='top-section'>
+  <p>TODO: Add a description here...if we want one... Not sure if it's necessary or not. What would be a good description, seems the title is kinda descriptive. If you're here in the dataloader, you already have a good idea of what this is about. Hmmm.</p>
+</div>
+<div class='top-section'>
+  <p>DOI: <%= @dataload[:doi] %></p>
+  <p>Mount Point: <%= @dataload[:mountPoint] %></p>
+  <p>Directory: <%= @dataload[:directory] %></p>
+</div>
+<div class='top-section'>
+  <p>File Count: <%= @files.count %></p>
+  <p>File List:</p>
+  <ul>
+    <!-- TODO: limit number of files displayed to a max of what...10? 20?-->
+    <% @files.each do |file| %>
+      <li><%= file %></li>
+    <% end %>
+  </ul>
+<div class='top-section'>
+  <%= form_with model: @dataload, url: data_loads_path, data: { turbo: false } do |form| %>
+    <%= form.hidden_field :user_name, value: @dataload[:user_name] %>
+    <%= form.hidden_field :user_email, value: @dataload[:user_email] %>
+    <%= form.hidden_field :doi, value: @dataload[:doi] %>
+    <%= form.hidden_field :mountPoint, value: @dataload[:mountPoint] %>
+    <%= form.hidden_field :directory, value: @dataload[:directory] %>
+    <p>
+    <%= form.submit %>
+    <%= link_to 'Cancel', new_data_load_path %>
+  <% end %>
+</div>

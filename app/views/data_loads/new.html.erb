@@ -1,17 +1,34 @@
 <h1>Create a New Data Load</h1>
-<br>
 <div class='top-section'>
-  <%= form_with model: @dataload, url: data_loads_path, local: false do |form| %>
-    <%= form.label :doi %>
-    <%= form.text_field :doi %>
-    <br>
-    <%= form.label :mountPoint %>
-    <%= form.text_field :mountPoint %>
-    <br>
-    <%= form.label :directory %>
-    <%= form.text_field :directory %>
-    <br>
+  <p>TODO: Add a description here...if we want one... Not sure if it's necessary or not. What would be a good description, seems the title is kinda descriptive. If you're here in the dataloader, you already have a good idea of what this is about. Hmmm.</p>
+  <p style="color: #ee0000">* Required</p>
+</div>
+<div class='top-section'>
+  <%# TURBO DAMN YOU!!!! %>
+  <%= form_with model: @dataload, url: preview_data_loads_path, data: { turbo: false } do |form| %>
+    <%= form.hidden_field :user_name, value: current_user[:name] %>
+    <%= form.hidden_field :user_email, value: current_user[:email] %>
+    <div class="form-label form-group required">
+      <%= form.label(:doi, class: 'control-label') %>
+    </div>
+    <%= form.text_field(:doi, required: true, autofocus: true) %>
+    <p>
+    <div class="form-label form-group required">
+      <%= form.label(:mountPoint, class: 'control-label') %>
+      <br>
+      <%= form.select :mountPoint, 
+            options_for_select(@mountpoints.map { |mountpoint, value| [value[:label], mountpoint] }), 
+            { prompt: "Select a mount point", required: true } %>
+
+    </div>
+    <%# form.text_field(:mountPoint, required: true) %>
+    <p>
+    <div class="form-label form-group required">
+      <%= form.label(:directory, class: 'control-label') %>
+    </div>
+    <%= form.text_field(:directory, required: true) %>
+    <p>
     <%= form.submit %>
   <% end %>
 </div>
-<%# t("hello") %>
+

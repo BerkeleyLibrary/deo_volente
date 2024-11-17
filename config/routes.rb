@@ -26,5 +26,9 @@ Rails.application.routes.draw do
   # Logout route
   delete '/logout', to: 'sessions#destroy'
 
-  resources :data_loads
+  resources :data_loads, only: [:index, :new, :create, :show] do
+    collection do
+      post :preview
+    end
+  end
 end

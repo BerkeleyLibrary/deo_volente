@@ -48,3 +48,6 @@ docker compose exec -it app bash
 * Deployment instructions
 
 * ...
+
+Good Jobs Dashboard: http://localhost:3000/good_job/jobs?locale=en
+Adminer (db): http://localhost:8080/

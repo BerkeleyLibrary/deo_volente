@@ -2,6 +2,9 @@
 @import 'header';
 @import 'footer';
 
+$required-color: #ee0000;
+$required-indicator: "*";
+
 html {
   height: 100%;
   font-variant-numeric: lining-nums !important;
@@ -30,4 +33,11 @@ h1 {
 .flash.alert {
   background-color: $color-flash-alert;
   color: white;
+}
+
+// TODO: Fix this... was working then stopped after I added dropdowns
+.form-group.required .control-label:after, fieldset.required legend:after {
+  content: $required-indicator;
+  color: $required-color;
+  margin-left: 0.25em;
 }
